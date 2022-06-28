@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:momo_recorder_ui_app/src/components/bottom_navbar.dart';
 import 'package:momo_recorder_ui_app/src/models/transaction.dart';
+
 class RemoCommission extends StatefulWidget {
   const RemoCommission({Key? key}) : super(key: key);
 
@@ -10,12 +11,13 @@ class RemoCommission extends StatefulWidget {
 }
 
 class _RemoCommissionState extends State<RemoCommission> {
+  final _phoneNumberController = TextEditingController();
+  final _amountController = TextEditingController();
+  final _commissionsController = TextEditingController();
 
-  final phoneNumberController = TextEditingController();
-  final amountController = TextEditingController();
-  final commissionsController = TextEditingController();
+  final _formKey = GlobalKey<FormState>();
 
-  List<DropdownMenuItem<String>> get dropdownItems{
+  List<DropdownMenuItem<String>> get dropdownItems {
     List<DropdownMenuItem<String>> menuItems = [
       const DropdownMenuItem(value: "DEPOSIT", child: Text("DEPOSIT")),
       const DropdownMenuItem(value: "TRANSFER", child: Text("TRANSFER")),
@@ -27,16 +29,54 @@ class _RemoCommissionState extends State<RemoCommission> {
 
   String selectedValue = "TRANSFER";
 
-
   @override
   void dispose() {
     // Clean up the controller when the widget is disposed.
-    phoneNumberController.dispose();
-    amountController.dispose();
-    commissionsController.dispose();
+    _phoneNumberController.dispose();
+    _amountController.dispose();
+    _commissionsController.dispose();
     super.dispose();
   }
 
+  String? _errorPhoneNumberText(String? value) {
+    // at any time, we can get the text from _controller.value.text
+    // Note: you can do your own custom validation here
+    // Move this logic this outside the widget for more testable code
+    if (value == null || value.isEmpty) {
+      return 'can\'t be empty';
+    }
+    if (value.length < 10) {
+      return 'not a valid phone number';
+    }
+    // return null if the text is valid
+    return null;
+  }
+
+  String? _errorAmountText(String? value) {
+    // at any time, we can get the text from _controller.value.text
+    // Note: you can do your own custom validation here
+    // Move this logic this outside the widget for more testable code
+    if (value == null || value.isEmpty) {
+      return 'can\'t be empty';
+    }
+    // return null if the text is valid
+    return null;
+  }
+
+  String? _errorCommissionText(String? value) {
+    // at any time, we can get the text from _controller.value.text
+    // Note: you can do your own custom validation here
+    if (selectedValue == 'DEPOSIT' || selectedValue == 'WITHDRAWAL') {
+      _commissionsController.text = '0.0';
+      return null;
+    }
+    // Move this logic this outside the widget for more testable code
+    if (value == null || value.isEmpty) {
+      return 'can\'t be empty';
+    }
+    // return null if the text is valid
+    return null;
+  }
 
   Widget _buildTransactionInput(BuildContext context) {
     return DropdownButtonFormField(
@@ -59,32 +99,31 @@ class _RemoCommissionState extends State<RemoCommission> {
             selectedValue = newValue!;
           });
         },
-        items: dropdownItems
-    );
+        items: dropdownItems);
   }
 
   Widget _buildNumberInput(BuildContext context) {
-    return TextField(
-      enabled: true,
-      controller: phoneNumberController,
-      keyboardType: TextInputType.phone,
-      cursorColor: Colors.black26,
-      style: const TextStyle(
-        color: Colors.black,
-      ),
-      decoration: const InputDecoration(
-          border: InputBorder.none,
-          contentPadding: EdgeInsets.only(top: 14.0),
-          prefixIcon: Icon(Icons.numbers, color: Colors.black),
-          hintText: "Enter Phone Number",
-          hintStyle: TextStyle(color: Colors.black26)
-      ),
-    );
+    return TextFormField(
+        enabled: true,
+        controller: _phoneNumberController,
+        keyboardType: TextInputType.phone,
+        cursorColor: Colors.black26,
+        style: const TextStyle(
+          color: Colors.black,
+        ),
+        decoration: const InputDecoration(
+            border: InputBorder.none,
+            contentPadding: EdgeInsets.only(top: 14.0),
+            prefixIcon: Icon(Icons.numbers, color: Colors.black),
+            hintText: "Enter Phone Number",
+            hintStyle: TextStyle(color: Colors.black26)),
+        validator: _errorPhoneNumberText);
   }
+
   Widget _buildAmountInput(BuildContext context) {
-    return TextField(
+    return TextFormField(
       enabled: true,
-      controller: amountController,
+      controller: _amountController,
       keyboardType: TextInputType.phone,
       cursorColor: Colors.black26,
       style: const TextStyle(
@@ -95,14 +134,15 @@ class _RemoCommissionState extends State<RemoCommission> {
           contentPadding: EdgeInsets.only(top: 14.0),
           prefixIcon: Icon(Icons.payment, color: Colors.black),
           hintText: "Enter Amount",
-          hintStyle: TextStyle(color: Colors.black26)
-      ),
+          hintStyle: TextStyle(color: Colors.black26)),
+      validator: _errorAmountText,
     );
   }
+
   Widget _buildCommissionInput(BuildContext context) {
-    return TextField(
+    return TextFormField(
       enabled: true,
-      controller: commissionsController,
+      controller: _commissionsController,
       keyboardType: TextInputType.phone,
       cursorColor: Colors.black26,
       style: const TextStyle(
@@ -113,8 +153,8 @@ class _RemoCommissionState extends State<RemoCommission> {
           contentPadding: EdgeInsets.only(top: 14.0),
           prefixIcon: Icon(Icons.attach_money, color: Colors.black),
           hintText: "Enter Commission",
-          hintStyle: TextStyle(color: Colors.black26)
-      ),
+          hintStyle: TextStyle(color: Colors.black26)),
+      validator: _errorCommissionText,
     );
   }
 
@@ -128,47 +168,46 @@ class _RemoCommissionState extends State<RemoCommission> {
         leading: const BackButton(),
       ),
       extendBody: true,
-      body: Stack(
-          children: [
-            AnimatedContainer(
-              height: double.infinity,
-              duration: const Duration(seconds: 1),
-              child: SingleChildScrollView(
-                physics: const AlwaysScrollableScrollPhysics(),
-                padding: const EdgeInsets.symmetric(horizontal: 40.0, vertical: 120.0),
+      body: Stack(children: [
+        SingleChildScrollView(
+          physics: const AlwaysScrollableScrollPhysics(),
+          padding:
+              const EdgeInsets.symmetric(horizontal: 40.0, vertical: 120.0),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              const SizedBox(height: 40),
+              const Text(
+                'Remo',
+                style: TextStyle(
+                    color: Colors.lightBlueAccent,
+                    fontFamily: 'Open Sans',
+                    fontSize: 30,
+                    fontWeight: FontWeight.bold),
+              ),
+              const SizedBox(height: 30),
+              Form(
+                key: _formKey,
                 child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    const SizedBox(height: 40),
-                    const Text(
-                      'Remo',
-                      style: TextStyle(
-                          color: Colors.lightBlueAccent,
-                          fontFamily: 'Open Sans',
-                          fontSize: 30,
-                          fontWeight: FontWeight.bold),
-                    ),
+                    _buildTransactionInput(context),
                     const SizedBox(height: 30),
-                    Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        _buildTransactionInput(context),
-                        const SizedBox(height: 30),
-                        _buildNumberInput(context),
-                        const SizedBox(height: 30),
-                        _buildAmountInput(context),
-                        const SizedBox(height: 30),
-                        _buildCommissionInput(context),
-                        const SizedBox(height: 30),
-                        _buildNextButton(context),
-                      ],
-                    )
+                    _buildNumberInput(context),
+                    const SizedBox(height: 30),
+                    _buildAmountInput(context),
+                    const SizedBox(height: 30),
+                    _buildCommissionInput(context),
+                    const SizedBox(height: 30),
+                    _buildNextButton(context),
                   ],
                 ),
-              ),
-            )
-          ]),
+              )
+            ],
+          ),
+        )
+      ]),
       bottomNavigationBar: const RemoBottomNavBar(),
     );
   }
@@ -177,60 +216,58 @@ class _RemoCommissionState extends State<RemoCommission> {
     return ElevatedButton(
       style: ButtonStyle(
           foregroundColor: MaterialStateProperty.all<Color>(Colors.white),
-          backgroundColor: MaterialStateProperty.all<Color>(Colors.lightBlueAccent),
-          padding:
-          MaterialStateProperty.all(const EdgeInsets.symmetric(vertical: 17.0)),
+          backgroundColor:
+              MaterialStateProperty.all<Color>(Colors.lightBlueAccent),
+          padding: MaterialStateProperty.all(
+              const EdgeInsets.symmetric(vertical: 17.0)),
           shape: MaterialStateProperty.all<RoundedRectangleBorder>(
               const RoundedRectangleBorder(
-                borderRadius: BorderRadius.all(Radius.circular(40.0)),
-              ))),
+            borderRadius: BorderRadius.all(Radius.circular(40.0)),
+          ))),
       onPressed: () {
         // TODO: SEND DATA TO SERVER
-        print(phoneNumberController.text);
-        print(amountController.text);
-        print(commissionsController.text);
+        print(_phoneNumberController.text);
+        print(_amountController.text);
+        print(_commissionsController.text);
 
-        if (phoneNumberController.text == ''
-        || amountController.text == '' || commissionsController.text == '') {
-          showDialog(context: context, builder: (context) {
-            return const AlertDialog(content: Text("please enter all fields"));
-          });
-          return;
-        }
+        if (_formKey.currentState!.validate()) {
+          Future<String> message = performTransaction(
+              selectedValue,
+              _phoneNumberController.text,
+              double.parse(_amountController.text),
+              double.parse(_commissionsController.text));
+          print(message);
 
-        Future<String> message = performTransaction(
-            selectedValue,
-            phoneNumberController.text,
-            double.parse(amountController.text),
-            double.parse(commissionsController.text)
-        );
-        print(message);
+          showDialog(
+            context: context,
+            builder: (context) {
+              return FutureBuilder(
+                  future: message,
+                  builder: (context, snapshot) {
+                    if (snapshot.connectionState == ConnectionState.done) {
+                      if (snapshot.hasError) {
+                        return const CircularProgressIndicator();
+                      }
 
-        showDialog(
-          context: context,
-          builder: (context) {
-            return FutureBuilder(
-              future: message,
-              builder: (context, snapshot) {
-                if (snapshot.connectionState == ConnectionState.done) {
-                  if (snapshot.hasError) {
+                      if (snapshot.hasData) {
+                        String data = snapshot.data as String;
+                        return AlertDialog(
+                          // Retrieve the text the that user has entered by using the
+                          // TextEditingController.
+                          content: Text(data),
+                        );
+                      }
+                    }
                     return const CircularProgressIndicator();
-                  }
-
-                  if (snapshot.hasData) {
-                    String data = snapshot.data as String;
-                    return AlertDialog(
-                      // Retrieve the text the that user has entered by using the
-                      // TextEditingController.
-                      content: Text(data),
-                    );;
-                  }
-                }
-                return const CircularProgressIndicator();
-              }
-            );
-          },
-        );
+                  });
+            },
+          );
+          setState(() {
+            _phoneNumberController.clear();
+            _amountController.clear();
+            _commissionsController.clear();
+          });
+        }
       },
       child: const Center(
         child: Text('SUBMIT',
