@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "268685449376",
+    "project_id": "remo-2cd48",
+    "storage_bucket": "remo-2cd48.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:268685449376:android:989b7872a23e70b285d1c5",
+        "android_client_info": {
+          "package_name": "com.example.momo_recorder_ui_app"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "268685449376-27v63dgbeqn71hfic4i4m097l7uh7ver.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDfqECdA8O_HrzKQYYGeAXGbM74-AvsB7I"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "268685449376-27v63dgbeqn71hfic4i4m097l7uh7ver.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

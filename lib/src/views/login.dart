@@ -1,15 +1,28 @@
 import 'package:flutter/material.dart';
 import 'package:momo_recorder_ui_app/src/components/input.dart';
+import 'package:momo_recorder_ui_app/src/services/authentication_service.dart';
+import 'package:provider/provider.dart';
 
 class Login extends StatelessWidget {
-  const Login({Key? key}) : super(key: key);
+  Login({Key? key}) : super(key: key);
+
+  final _emailController = TextEditingController();
+  final _passwordController = TextEditingController();
 
   Widget _buildEmail() {
-    return const RemoInput(placeholder: 'Merchant Id', icon: Icons.person);
+    return RemoInput(
+        placeholder: 'Merchant Id',
+        textEditingController: _emailController,
+        icon: Icons.person
+    );
   }
 
   Widget _buildPassword() {
-    return const RemoInput(placeholder: 'Password', icon: Icons.lock, hideText: true);
+    return RemoInput(
+        placeholder: 'Password',
+        textEditingController: _passwordController,
+        icon: Icons.lock, hideText: true
+    );
   }
 
   Widget _buildNextButton(BuildContext context) {
@@ -25,7 +38,11 @@ class Login extends StatelessWidget {
           ))),
       onPressed: () {
         // TODO: SEND DATA TO SERVER
-        Navigator.pushNamed(context, '/home');
+        context.read<AuthenticationService>().signIn(
+            email: _emailController.text.trim(),
+            password: _passwordController.text.trim()
+        );
+        // Navigator.pushNamed(context, '/home');
       },
       child: const Center(
         child: Text('LOGIN',

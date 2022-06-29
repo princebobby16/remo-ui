@@ -8,7 +8,7 @@ class RemoInput extends StatefulWidget {
     this.enabled = true,
     this.keyboardType = TextInputType.text,
     this.hideText = false,
-    this.textEditingController,
+    required this.textEditingController,
   }) : super(key: key);
 
   final String placeholder;
@@ -16,7 +16,7 @@ class RemoInput extends StatefulWidget {
   final IconData? icon;
   final TextInputType keyboardType;
   final bool hideText;
-  final TextEditingController? textEditingController;
+  final TextEditingController textEditingController;
 
   @override
   RemoState createState() => RemoState();
