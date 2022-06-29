@@ -60,8 +60,8 @@ class FlutterList extends StatelessWidget {
             return ListView.separated(
               itemBuilder: (context, position) {
                 return Card(
-                  shadowColor: Colors.lightBlueAccent,
-                  elevation: 5.0,
+                  // shadowColor: Colors.lightBlueAccent,
+                  elevation: 3.0,
                   child: Center(
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceEvenly,

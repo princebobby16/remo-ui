@@ -103,20 +103,6 @@ class Login extends StatelessWidget {
                       const SizedBox(height: 60),
                       _buildNextButton(context),
                       const SizedBox(height: 100),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          GestureDetector(
-                            onTap: () {
-                              Navigator.pushNamed(context, '/');
-                            },
-                            child: const Text('Sign Up',
-                                style: TextStyle(color: Colors.white)),
-                          ),
-                          const Text('Forgot password?',
-                              style: TextStyle(color: Colors.white))
-                        ],
-                      )
                     ],
                   )
                 ],

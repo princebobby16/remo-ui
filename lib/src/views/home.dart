@@ -22,7 +22,14 @@ class _RemoHomeState extends State<RemoHome> {
         backgroundColor: Colors.lightBlueAccent,
       ),
       extendBody: true,
-      body: const RemoHomePage(),
+      body: AnimatedContainer(
+        height: double.infinity,
+        duration: const Duration(seconds: 1),
+        child: const SingleChildScrollView(
+            physics: AlwaysScrollableScrollPhysics(),
+            child: RemoHomePage()
+        ),
+      ),
       bottomNavigationBar: const RemoBottomNavBar(),
     );
   }

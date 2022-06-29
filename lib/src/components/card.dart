@@ -16,7 +16,7 @@ class _RemoCardState extends State<RemoCard> {
   Widget build(BuildContext context) {
     return Card(
         elevation: 8,
-        shadowColor: Colors.lightBlueAccent,
+        // shadowColor: Colors.lightBlueAccent,
         margin: const EdgeInsets.all(20),
         shape: OutlineInputBorder(
             borderRadius: BorderRadius.circular(20),
