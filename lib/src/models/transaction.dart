@@ -115,7 +115,7 @@ Future<String> performTransaction(
 
   var message = 'failure';
 
-  if (transactionType == '' || phoneNumber == '' || amount == 0 || commission == 0){
+  if (transactionType == '' || phoneNumber == '' || amount == 0){
     return 'some fields are empty';
   }
 

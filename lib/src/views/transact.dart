@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:momo_recorder_ui_app/src/components/bottom_navbar.dart';
 import 'package:momo_recorder_ui_app/src/models/transaction.dart';
 
@@ -16,6 +15,9 @@ class _RemoCommissionState extends State<RemoCommission> {
   final _commissionsController = TextEditingController();
 
   final _formKey = GlobalKey<FormState>();
+
+  bool _disableText = false;
+  bool _enableText = true;
 
   List<DropdownMenuItem<String>> get dropdownItems {
     List<DropdownMenuItem<String>> menuItems = [
@@ -64,12 +66,6 @@ class _RemoCommissionState extends State<RemoCommission> {
   }
 
   String? _errorCommissionText(String? value) {
-    // at any time, we can get the text from _controller.value.text
-    // Note: you can do your own custom validation here
-    if (selectedValue == 'DEPOSIT' || selectedValue == 'WITHDRAWAL') {
-      _commissionsController.text = '0.0';
-      return null;
-    }
     // Move this logic this outside the widget for more testable code
     if (value == null || value.isEmpty) {
       return 'can\'t be empty';
@@ -97,6 +93,10 @@ class _RemoCommissionState extends State<RemoCommission> {
         onChanged: (String? newValue) {
           setState(() {
             selectedValue = newValue!;
+            _commissionsController.text = '0.0';
+            _disableText = true;
+            _enableText = false;
+            _buildCommissionInput(context);
           });
         },
         items: dropdownItems);
@@ -141,13 +141,14 @@ class _RemoCommissionState extends State<RemoCommission> {
 
   Widget _buildCommissionInput(BuildContext context) {
     return TextFormField(
-      enabled: true,
+      enabled: _enableText,
       controller: _commissionsController,
       keyboardType: TextInputType.phone,
       cursorColor: Colors.black26,
       style: const TextStyle(
         color: Colors.black,
       ),
+      readOnly: _disableText,
       decoration: const InputDecoration(
           border: InputBorder.none,
           contentPadding: EdgeInsets.only(top: 14.0),
@@ -226,17 +227,13 @@ class _RemoCommissionState extends State<RemoCommission> {
           ))),
       onPressed: () {
         // TODO: SEND DATA TO SERVER
-        print(_phoneNumberController.text);
-        print(_amountController.text);
-        print(_commissionsController.text);
-
         if (_formKey.currentState!.validate()) {
           Future<String> message = performTransaction(
               selectedValue,
               _phoneNumberController.text,
               double.parse(_amountController.text),
-              double.parse(_commissionsController.text));
-          print(message);
+              double.parse(_commissionsController.text)
+          );
 
           showDialog(
             context: context,
@@ -251,6 +248,7 @@ class _RemoCommissionState extends State<RemoCommission> {
 
                       if (snapshot.hasData) {
                         String data = snapshot.data as String;
+                        print(data);
                         return AlertDialog(
                           // Retrieve the text the that user has entered by using the
                           // TextEditingController.
