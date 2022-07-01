@@ -1,10 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:momo_recorder_ui_app/src/components/RemoAppBar.dart';
+import 'package:momo_recorder_ui_app/src/components/remo_app_bar.dart';
 import 'package:momo_recorder_ui_app/src/components/bottom_navbar.dart';
-import 'package:momo_recorder_ui_app/src/components/card.dart';
-import 'package:momo_recorder_ui_app/src/views/transact.dart';
 import 'package:momo_recorder_ui_app/src/views/home_page.dart';
-import 'package:momo_recorder_ui_app/src/views/list.dart';
 
 class RemoHome extends StatefulWidget {
   const RemoHome({Key? key}) : super(key: key);

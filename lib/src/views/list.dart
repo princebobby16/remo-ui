@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:momo_recorder_ui_app/src/components/bottom_navbar.dart';
-import '../components/RemoAppBar.dart';
+import '../components/remo_app_bar.dart';
 import '../models/transaction.dart';
 
 class RemoViewTransactions extends StatefulWidget {

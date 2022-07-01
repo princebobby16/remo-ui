@@ -23,7 +23,7 @@ class _RemoCardState extends State<RemoCard> {
             borderSide: const BorderSide(color: Color(0x5573f1e6), width: 1)
         ),
         child: SizedBox(
-          height: 0.17 * MediaQuery.of(context).size.height,
+          height: 0.18 * MediaQuery.of(context).size.height,
           child: Column(
             children: [
               Center(

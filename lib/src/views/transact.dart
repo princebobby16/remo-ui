@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:momo_recorder_ui_app/src/components/RemoAppBar.dart';
+import 'package:momo_recorder_ui_app/src/components/remo_app_bar.dart';
 import 'package:momo_recorder_ui_app/src/components/bottom_navbar.dart';
 import 'package:momo_recorder_ui_app/src/models/transaction.dart';
 
