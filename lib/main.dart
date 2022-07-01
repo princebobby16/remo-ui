@@ -40,6 +40,7 @@ class Remo extends StatelessWidget {
         debugShowCheckedModeBanner: false,
         theme: ThemeData(
             scaffoldBackgroundColor: const Color(0xFFFFFFFF),
+            primaryColor: Colors.lightBlueAccent,
             visualDensity: VisualDensity.adaptivePlatformDensity),
         home: const AuthenticationWrapper(),
         initialRoute: '/',

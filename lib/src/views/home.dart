@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:momo_recorder_ui_app/src/components/RemoAppBar.dart';
 import 'package:momo_recorder_ui_app/src/components/bottom_navbar.dart';
 import 'package:momo_recorder_ui_app/src/components/card.dart';
 import 'package:momo_recorder_ui_app/src/views/transact.dart';
@@ -16,11 +17,7 @@ class _RemoHomeState extends State<RemoHome> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        automaticallyImplyLeading: false,
-        title: const Text("Remo Transactions Recorder"),
-        backgroundColor: Colors.lightBlueAccent,
-      ),
+      appBar: RemoAppBar(title: 'Remo Transactions Recorder', implyLeading: false),
       extendBody: true,
       body: AnimatedContainer(
         height: double.infinity,

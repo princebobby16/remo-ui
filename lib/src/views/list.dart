@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:momo_recorder_ui_app/src/components/bottom_navbar.dart';
+import '../components/RemoAppBar.dart';
 import '../models/transaction.dart';
 
 class RemoViewTransactions extends StatefulWidget {
@@ -21,12 +22,11 @@ class _RemoViewTransactionsState extends State<RemoViewTransactions> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        automaticallyImplyLeading: false,
-        title: const Text("Transactions List"),
-        backgroundColor: Colors.lightBlueAccent,
-        leading: const BackButton(),
-      ),
+      appBar: RemoAppBar(title: 'Transactions', implyLeading: true, backButton: BackButton(
+        onPressed: () => {
+          Navigator.of(context).pushNamed('/home')
+        },
+      )),
       extendBody: true,
       body: Center(
         child: ConstrainedBox(

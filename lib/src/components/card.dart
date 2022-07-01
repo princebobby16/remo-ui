@@ -20,10 +20,10 @@ class _RemoCardState extends State<RemoCard> {
         margin: const EdgeInsets.all(20),
         shape: OutlineInputBorder(
             borderRadius: BorderRadius.circular(20),
-            borderSide:
-            const BorderSide(color: Colors.lightBlueAccent, width: 1)),
+            borderSide: const BorderSide(color: Color(0x5573f1e6), width: 1)
+        ),
         child: SizedBox(
-          height: 160,
+          height: 0.17 * MediaQuery.of(context).size.height,
           child: Column(
             children: [
               Center(

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:momo_recorder_ui_app/src/components/RemoAppBar.dart';
 import 'package:momo_recorder_ui_app/src/components/bottom_navbar.dart';
 import 'package:momo_recorder_ui_app/src/models/transaction.dart';
 
@@ -162,12 +163,11 @@ class _RemoCommissionState extends State<RemoCommission> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        automaticallyImplyLeading: false,
-        title: const Text("Transact", style: TextStyle(color: Colors.white)),
-        backgroundColor: Colors.lightBlueAccent,
-        leading: const BackButton(),
-      ),
+      appBar: RemoAppBar(title: 'Transact', implyLeading: true, backButton: BackButton(
+        onPressed: () => {
+          Navigator.of(context).pushNamed('/home')
+        },
+      )),
       extendBody: true,
       body: Stack(children: [
         SingleChildScrollView(

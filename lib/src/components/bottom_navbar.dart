@@ -15,7 +15,7 @@ class _RemoBottomNavBarState extends State<RemoBottomNavBar> {
         padding: const EdgeInsets.only(bottom: 15, left: 7, right: 7),
         child: PhysicalModel(
           color: Colors.grey,
-          shadowColor: Colors.lightBlueAccent,
+          // shadowColor: Colors.lightBlueAccent,
           elevation: 5.0,
           borderRadius: BorderRadius.circular(40),
           child: ClipRRect(

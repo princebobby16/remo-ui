@@ -1,57 +1,87 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:momo_recorder_ui_app/src/components/input.dart';
 import 'package:momo_recorder_ui_app/src/services/authentication_service.dart';
 import 'package:provider/provider.dart';
+import 'package:rounded_loading_button/rounded_loading_button.dart';
 
-class Login extends StatelessWidget {
+class Login extends StatefulWidget {
   Login({Key? key}) : super(key: key);
 
+  @override
+  State<Login> createState() => _LoginState();
+}
+
+class _LoginState extends State<Login> {
   final _emailController = TextEditingController();
+
   final _passwordController = TextEditingController();
+
+  final _btnController = RoundedLoadingButtonController();
+
+  @override
+  void initState() {
+    super.initState();
+    _btnController.stateStream.listen((value) {
+      print(value);
+    });
+  }
 
   Widget _buildEmail() {
     return RemoInput(
-        placeholder: 'Merchant Id',
+        placeholder: 'email',
         textEditingController: _emailController,
-        icon: Icons.person
-    );
+        icon: Icons.email);
   }
 
   Widget _buildPassword() {
     return RemoInput(
         placeholder: 'Password',
         textEditingController: _passwordController,
-        icon: Icons.lock, hideText: true
-    );
+        icon: Icons.lock,
+        hideText: true);
   }
 
-  Widget _buildNextButton(BuildContext context) {
-    return ElevatedButton(
-      style: ButtonStyle(
-          foregroundColor: MaterialStateProperty.all<Color>(Colors.white),
-          backgroundColor: MaterialStateProperty.all<Color>(Colors.lime),
-          padding:
-              MaterialStateProperty.all(const EdgeInsets.symmetric(vertical: 17.0)),
-          shape: MaterialStateProperty.all<RoundedRectangleBorder>(
-              const RoundedRectangleBorder(
-            borderRadius: BorderRadius.all(Radius.circular(40.0)),
-          ))),
+  Widget _buildRoundedButton(BuildContext context) {
+    return RoundedLoadingButton(
+      controller: _btnController,
       onPressed: () {
-        // TODO: SEND DATA TO SERVER
-        context.read<AuthenticationService>().signIn(
+        Future<String?> resp = context.read<AuthenticationService>().signIn(
             email: _emailController.text.trim(),
-            password: _passwordController.text.trim()
-        );
-        // Navigator.pushNamed(context, '/home');
+            password: _passwordController.text.trim());
+
+        String? response = '';
+
+        resp.then((value) => {
+              setState(() {
+                response = value;
+                print(response);
+                if (response == null) {
+                  _btnController.reset();
+                } else if (response == "Signed In"){
+                  // do nothing
+                } else {
+                  String errorMessage = response!;
+                  showDialog(
+                      context: context,
+                      builder: (context) => AlertDialog(
+                        title: const Text("Error"),
+                        content: Text(errorMessage),
+                      )
+                  );
+                  _btnController.reset();
+                }
+              })
+            });
       },
-      child: const Center(
-        child: Text('LOGIN',
-            style: TextStyle(
-                fontSize: 18.0,
-                fontWeight: FontWeight.bold,
-                color: Colors.black54,
-                letterSpacing: 1.5)),
-      ),
+      color: Colors.lime,
+      child: const Text('Login',
+          style: TextStyle(
+              color: Colors.black54,
+              fontSize: 18.0,
+              letterSpacing: 1.5,
+              fontWeight: FontWeight.bold)),
     );
   }
 
@@ -87,7 +117,8 @@ class Login extends StatelessWidget {
             duration: const Duration(seconds: 1),
             child: SingleChildScrollView(
               physics: const AlwaysScrollableScrollPhysics(),
-              padding: const EdgeInsets.symmetric(horizontal: 40.0, vertical: 120.0),
+              padding:
+                  const EdgeInsets.symmetric(horizontal: 40.0, vertical: 120.0),
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -115,10 +146,10 @@ class Login extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       _buildEmail(),
-                      SizedBox(height: 30),
+                      const SizedBox(height: 30),
                       _buildPassword(),
                       const SizedBox(height: 60),
-                      _buildNextButton(context),
+                      _buildRoundedButton(context),
                       const SizedBox(height: 100),
                     ],
                   )
