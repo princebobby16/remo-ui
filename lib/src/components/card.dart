@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:momo_recorder_ui_app/src/models/transaction.dart';
 
 class RemoCard extends StatefulWidget {
-  const RemoCard({Key? key, required this.title, required this.subtitle, required this.value}) : super(key: key);
+  const RemoCard({Key? key, required this.title, required this.responseData})
+      : super(key: key);
 
   final String title;
-  final String subtitle;
-  final String value;
+  final Future<TransactionsData> responseData;
 
   @override
   State<RemoCard> createState() => _RemoCardState();
@@ -20,27 +21,63 @@ class _RemoCardState extends State<RemoCard> {
         margin: const EdgeInsets.all(20),
         shape: OutlineInputBorder(
             borderRadius: BorderRadius.circular(20),
-            borderSide: const BorderSide(color: Color(0x5573f1e6), width: 1)
-        ),
-        child: SizedBox(
-          height: 0.18 * MediaQuery.of(context).size.height,
-          child: Column(
-            children: [
-              Center(
-                child: Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: ListTile(
-                    title: Text(widget.title, style: const TextStyle(fontSize: 25)),
-                    subtitle: Text(widget.subtitle),
+            borderSide: const BorderSide(color: Color(0x5573f1e6), width: 1)),
+        child: FutureBuilder(
+            future: widget.responseData,
+            builder: (context, snapshot) {
+              if (snapshot.connectionState == ConnectionState.done) {
+                if (snapshot.hasData) {
+                  TransactionsData data = snapshot.data as TransactionsData;
+                  return _buildCardContent(context, widget.title, data.date, data.value);
+                }
+              }
+              return Column(
+                children: const [
+                  Center(
+                    child: Padding(
+                      padding: EdgeInsets.all(8.0),
+                      child: ListTile(
+                        title: Text("",
+                            style: TextStyle(fontSize: 22)),
+                        subtitle: Text(""),
+                      ),
+                    ),
                   ),
-                ),
-              ),
-              Center(child: Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: ListTile(title: Text(widget.value, style: const TextStyle(fontSize: 25))),
-              ))
-            ],
-          ),
-        ));
+                  Center(
+                      child: Padding(
+                        padding: EdgeInsets.all(8.0),
+                        child: ListTile(
+                            title: Center(
+                                child: CircularProgressIndicator(color: Colors.lightBlueAccent)
+                            )
+                        ),
+                      ))
+                ],
+              );
+            }));
   }
+}
+
+Widget _buildCardContent(BuildContext context, String title, String date, double value) {
+  return Column(
+    children: [
+      Center(
+        child: Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: ListTile(
+            title: Text(title,
+                style: const TextStyle(fontSize: 22)),
+            subtitle: Text(date),
+          ),
+        ),
+      ),
+      Center(
+          child: Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: ListTile(
+                title: Text(value.toString(),
+                    style: const TextStyle(fontSize: 25))),
+          ))
+    ],
+  );
 }

@@ -47,7 +47,7 @@ class Remo extends StatelessWidget {
         routes: {
           '/home': (context) => const RemoHome(),
           '/login': (context) => Login(),
-          '/commissions': (context) => const RemoCommission(),
+          '/transact': (context) => const RemoTransaction(),
           '/view-transactions': (context) => const RemoViewTransactions(),
         },
       ),
@@ -68,4 +68,5 @@ class AuthenticationWrapper extends StatelessWidget {
 
     return Login();
   }
+
 }

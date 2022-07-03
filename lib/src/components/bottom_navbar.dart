@@ -40,7 +40,7 @@ class _RemoBottomNavBarState extends State<RemoBottomNavBar> {
                     Navigator.pushNamed(context, '/home');
                   }),
                   IconButton(icon: const Icon(Icons.view_agenda), onPressed: () {
-                    Navigator.pushNamed(context, '/commissions');
+                    Navigator.pushNamed(context, '/transact');
                   }),
                   IconButton(icon: const Icon(Icons.list), onPressed: () {
                     Navigator.pushNamed(context, '/view-transactions');

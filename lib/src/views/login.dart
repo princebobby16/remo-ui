@@ -110,7 +110,7 @@ class _LoginState extends State<Login> {
                   0.9
                 ])),
             curve: Curves.easeInSine,
-            duration: Duration(seconds: 1),
+            duration: const Duration(seconds: 1),
           ),
           AnimatedContainer(
             height: double.infinity,

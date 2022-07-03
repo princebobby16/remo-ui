@@ -29,64 +29,19 @@ class _RemoHomePageState extends State<RemoHomePage> {
         mainAxisAlignment: MainAxisAlignment.start,
         children: [
           const SizedBox(height: 10),
-          FutureBuilder(
-            future: transactionsCountData,
-            builder: (context, snapshot) {
-              if (snapshot.connectionState == ConnectionState.done) {
-                if(snapshot.hasData) {
-                  TransactionsData data = snapshot.data as TransactionsData;
-                  print(data.value);
-                  return RemoCard(title: "Total Transactions", subtitle: data.date, value: data.value.toString());
-                }
-              }
-              return Column(
-                children: const [
-                  SizedBox(height: 100),
-                  CircularProgressIndicator(
-                    color: Colors.lightBlueAccent,
-                  ),
-                ],
-              );
-            }
+          RemoCard(
+            title: "Total Transactions",
+              responseData: transactionsCountData
           ),
-          FutureBuilder(
-              future: dailyCommissionData,
-              builder: (context, snapshot) {
-                if (snapshot.connectionState == ConnectionState.done) {
-                  if(snapshot.hasData) {
-                    TransactionsData data = snapshot.data as TransactionsData;
-                    return RemoCard(title: "Daily Commission", subtitle: data.date, value: data.value.toString());
-                  }
-                }
-                return Column(
-                  children: const [
-                    SizedBox(height: 100),
-                    CircularProgressIndicator(
-                      color: Colors.lightBlueAccent,
-                    ),
-                  ],
-                );
-              }
+          RemoCard(
+              title: "Daily Commissions",
+              responseData: dailyCommissionData
           ),
-          FutureBuilder(
-              future: monthlyCommissionData,
-              builder: (context, snapshot) {
-                if (snapshot.connectionState == ConnectionState.done) {
-                  if(snapshot.hasData) {
-                    TransactionsData data = snapshot.data as TransactionsData;
-                    return RemoCard(title: "Monthly Commission", subtitle: data.date, value: data.value.toString());
-                  }
-                }
-                return Column(
-                  children: const [
-                    SizedBox(height: 100),
-                    CircularProgressIndicator(
-                      color: Colors.lightBlueAccent,
-                    ),
-                  ],
-                );
-              }
+          RemoCard(
+              title: "Monthly Commissions",
+              responseData: monthlyCommissionData
           ),
+          SizedBox(height: 0.2 * MediaQuery.of(context).size.height),
         ],
       ),
     );

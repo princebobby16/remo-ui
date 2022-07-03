@@ -28,11 +28,36 @@ class _RemoViewTransactionsState extends State<RemoViewTransactions> {
         },
       )),
       extendBody: true,
-      body: Center(
-        child: ConstrainedBox(
-            constraints: const BoxConstraints(
-                minHeight: 5.0, maxHeight: 800.0, minWidth: 100, maxWidth: 470),
-            child: FlutterList(data: futureData)),
+      body: Stack(
+        children: [
+          AnimatedContainer(
+            width: double.infinity,
+            height: double.infinity,
+            decoration: const BoxDecoration(
+                gradient: LinearGradient(
+                    begin: Alignment.topCenter,
+                    end: Alignment.bottomCenter,
+                    colors: [
+                      Color(0xFF73AEF5),
+                      Color(0xFF61A4F1),
+                      Color(0xFF478DE0),
+                      Color(0xFF398AE5)
+                    ],
+                    stops: [
+                      0.1,
+                      0.4,
+                      0.7,
+                      0.9
+                    ])),
+            curve: Curves.easeInSine,
+            duration: const Duration(seconds: 1),
+          ),
+          Center(
+          child: ConstrainedBox(
+              constraints: const BoxConstraints(
+                  minHeight: 5.0, maxHeight: 800.0, minWidth: 100, maxWidth: 470),
+              child: FlutterList(data: futureData)),
+        )]
       ),
       bottomNavigationBar: const RemoBottomNavBar(),
     );

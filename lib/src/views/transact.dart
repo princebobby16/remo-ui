@@ -3,14 +3,14 @@ import 'package:momo_recorder_ui_app/src/components/remo_app_bar.dart';
 import 'package:momo_recorder_ui_app/src/components/bottom_navbar.dart';
 import 'package:momo_recorder_ui_app/src/models/transaction.dart';
 
-class RemoCommission extends StatefulWidget {
-  const RemoCommission({Key? key}) : super(key: key);
+class RemoTransaction extends StatefulWidget {
+  const RemoTransaction({Key? key}) : super(key: key);
 
   @override
-  State<RemoCommission> createState() => _RemoCommissionState();
+  State<RemoTransaction> createState() => _RemoTransactionState();
 }
 
-class _RemoCommissionState extends State<RemoCommission> {
+class _RemoTransactionState extends State<RemoTransaction> {
   final _phoneNumberController = TextEditingController();
   final _amountController = TextEditingController();
   final _commissionsController = TextEditingController();
@@ -170,6 +170,28 @@ class _RemoCommissionState extends State<RemoCommission> {
       )),
       extendBody: true,
       body: Stack(children: [
+        AnimatedContainer(
+          width: double.infinity,
+          height: double.infinity,
+          decoration: const BoxDecoration(
+              gradient: LinearGradient(
+                  begin: Alignment.topCenter,
+                  end: Alignment.bottomCenter,
+                  colors: [
+                    Color(0xFF73AEF5),
+                    Color(0xFF61A4F1),
+                    Color(0xFF478DE0),
+                    Color(0xFF398AE5)
+                  ],
+                  stops: [
+                    0.1,
+                    0.4,
+                    0.7,
+                    0.9
+                  ])),
+          curve: Curves.easeInSine,
+          duration: const Duration(seconds: 1),
+        ),
         SingleChildScrollView(
           physics: const AlwaysScrollableScrollPhysics(),
           padding:

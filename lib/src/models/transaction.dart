@@ -101,14 +101,6 @@ class Data {
   String message;
 }
 
-class Resp {
-  Resp({required this.code, required this.message, required this.userId});
-
-  int code = 0;
-  String message = '';
-  String userId = '';
-}
-
 Future<String> performTransaction(
     String transactionType,
     String phoneNumber, double amount, double commission) async {
@@ -168,6 +160,7 @@ Future<List<TransactionsList>> fetchDailyTransactions() async {
   try {
     response = await http.get(Uri.parse(fetchTransactionURL));
   } catch (e) {
+    print("perform");
     print(e.toString());
   }
 
@@ -194,6 +187,7 @@ Future<TransactionsData> fetchDailyTransactionsCount() async {
   try {
     response = await http.get(Uri.parse(fetchTransactionURL));
   } catch (e) {
+    print("total");
     print(e.toString());
   }
 
@@ -207,6 +201,7 @@ Future<TransactionsData> fetchDailyTransactionsCount() async {
     }
 
   } catch (e) {
+    print("total");
     print(e.toString());
   }
 
@@ -222,6 +217,7 @@ Future<TransactionsData> fetchDailyCommissions() async {
   try {
     response = await http.get(Uri.parse(fetchTransactionURL));
   } catch (e) {
+    print("daily");
     print(e.toString());
   }
 
@@ -236,6 +232,7 @@ Future<TransactionsData> fetchDailyCommissions() async {
     }
 
   } catch (e) {
+    print("daily");
     print(e.toString());
   }
 
@@ -251,6 +248,7 @@ Future<TransactionsData> fetchMonthlyCommissions() async {
   try {
     response = await http.get(Uri.parse(fetchTransactionURL));
   } catch (e) {
+    print("monthly");
     print(e.toString());
   }
 
@@ -266,6 +264,7 @@ Future<TransactionsData> fetchMonthlyCommissions() async {
     }
 
   } catch (e) {
+    print("monthly");
     print(e.toString());
   }
 

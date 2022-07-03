@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:momo_recorder_ui_app/src/services/authentication_service.dart';
+import 'package:provider/provider.dart';
 
 class RemoAppBar extends StatelessWidget with PreferredSizeWidget {
   RemoAppBar(
@@ -46,6 +48,14 @@ class RemoAppBar extends StatelessWidget with PreferredSizeWidget {
                 ),
               ),
               PopupMenuItem(
+                onTap: () => {
+                  context.read<AuthenticationService>()
+                      .signOut()
+                  .then((value) => {
+                    print(value),
+                    Navigator.of(context).pushNamed("/")
+                  })
+                },
                 child: Row(
                   children: const [
                     Icon(Icons.logout, color: Colors.black),
