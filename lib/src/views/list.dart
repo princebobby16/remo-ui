@@ -35,13 +35,7 @@ class _RemoViewTransactionsState extends State<RemoViewTransactions> {
       extendBody: true,
       body: BodyWrapper(
         bodyPart: Center(
-          child: ConstrainedBox(
-              constraints: const BoxConstraints(
-                  minHeight: 5.0,
-                  maxHeight: 800.0,
-                  minWidth: 100,
-                  maxWidth: 470),
-              child: FlutterList(data: futureData)),
+          child: SafeArea(child: FlutterList(data: futureData)),
         ),
       ),
       bottomNavigationBar: const RemoBottomNavBar(),
@@ -74,10 +68,7 @@ class FlutterList extends StatelessWidget {
               itemBuilder: (context, position) {
                 return GestureDetector(
                   onTap: () {
-                    print(position);
                     // get the id and use it to fetch information about the transaction
-                    print(data[position].id);
-                    // Navigator.of(context).pushNamed("/transaction-details");
                     showMaterialModalBottomSheet(
                       backgroundColor: Colors.transparent,
                         context: context,

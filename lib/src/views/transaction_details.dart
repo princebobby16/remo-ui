@@ -15,7 +15,7 @@ class TransactionDetails extends StatelessWidget {
       decoration: const BoxDecoration(
           color: Colors.black26,
           borderRadius: BorderRadius.all(Radius.circular(20))),
-      margin: const EdgeInsets.only(bottom: 10),
+      margin: const EdgeInsets.only(top: 10, bottom: 10),
       height: 10,
       width: 40,
     );
@@ -24,71 +24,69 @@ class TransactionDetails extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-        height: MediaQuery.of(context).size.height * 0.55,
+        // height: MediaQuery.of(context).size.height * 0.55,
         padding: const EdgeInsets.only(left: 20, right: 20),
         decoration: BoxDecoration(
           color: Theme.of(context).canvasColor,
           borderRadius: const BorderRadius.only(
-            topLeft: Radius.circular(100),
-            topRight: Radius.circular(100)
+            topLeft: Radius.circular(50),
+            topRight: Radius.circular(50)
           )
         ),
-        constraints: const BoxConstraints(
-            maxWidth: 200.0,
-            minWidth: 150.0,
-            minHeight: 150.0
-        ),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            _buildHandle(),
-            const Text(
-              "Transaction",
-              style:
-              TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
-            ),
-            Column(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children: [
-                DataField(
-                    icon: Icons.date_range,
-                    iconColour: Colors.brown,
-                    title: "Transaction Date",
-                    subTitle: time,
-                    value: date
-                ),
-                DataField(
-                    icon: Icons.attach_money_sharp,
-                    iconColour: Colors.orangeAccent,
-                    title: "Amount",
-                    subTitle: "GHS",
-                    value: amount
-                ),
-                DataField(
-                    icon: Icons.attach_money_rounded,
-                    iconColour: Colors.greenAccent,
-                    title: "Commission",
-                    subTitle: "GHS",
-                    value: commission
-                ),
-                DataField(
-                    icon: Icons.phone,
-                    iconColour: Colors.greenAccent,
-                    title: "Phone Number",
-                    subTitle: "+233",
-                    value: phoneNumber
-                ),
-                DataField(
-                    icon: Icons.tablet_android,
-                    iconColour: Colors.lightBlueAccent,
-                    title: "Transaction Type",
-                    subTitle: "MTN",
-                    value: transactionType
-                ),
-              ],
-            )
-          ],
+        child: SingleChildScrollView(
+          physics: const AlwaysScrollableScrollPhysics(),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              _buildHandle(),
+              const Text(
+                "Transaction",
+                style:
+                TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+              ),
+              Column(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: [
+                  DataField(
+                      icon: Icons.date_range,
+                      iconColour: Colors.brown,
+                      title: "Transaction Date",
+                      subTitle: time,
+                      value: date
+                  ),
+                  DataField(
+                      icon: Icons.attach_money_sharp,
+                      iconColour: Colors.orangeAccent,
+                      title: "Amount",
+                      subTitle: "GHS",
+                      value: amount
+                  ),
+                  DataField(
+                      icon: Icons.attach_money_rounded,
+                      iconColour: Colors.greenAccent,
+                      title: "Commission",
+                      subTitle: "GHS",
+                      value: commission
+                  ),
+                  DataField(
+                      icon: Icons.phone,
+                      iconColour: Colors.greenAccent,
+                      title: "Phone Number",
+                      subTitle: "+233",
+                      value: phoneNumber
+                  ),
+                  DataField(
+                      icon: Icons.tablet_android,
+                      iconColour: Colors.lightBlueAccent,
+                      title: "Transaction Type",
+                      subTitle: "MTN",
+                      value: transactionType
+                  ),
+                ],
+              )
+            ],
+          ),
         )
     );
   }
