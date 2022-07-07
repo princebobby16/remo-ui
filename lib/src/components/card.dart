@@ -28,30 +28,30 @@ class _RemoCardState extends State<RemoCard> {
               if (snapshot.connectionState == ConnectionState.done) {
                 if (snapshot.hasData) {
                   TransactionsData data = snapshot.data as TransactionsData;
-                  return _buildCardContent(context, widget.title, data.date, data.value);
+                  return _buildCardContent(
+                      context, widget.title, data.date, data.value);
                 }
               }
               return Column(
-                children: const [
+                children: [
                   Center(
                     child: Padding(
-                      padding: EdgeInsets.all(8.0),
+                      padding: const EdgeInsets.all(8.0),
                       child: ListTile(
-                        title: Text("",
-                            style: TextStyle(fontSize: 22)),
-                        subtitle: Text(""),
+                        title: Text(widget.title,
+                            style: const TextStyle(fontSize: 22)),
+                        subtitle: const Text(""),
                       ),
                     ),
                   ),
-                  Center(
+                  const Center(
                       child: Padding(
-                        padding: EdgeInsets.all(8.0),
-                        child: ListTile(
-                            title: Center(
-                                child: CircularProgressIndicator(color: Colors.lightBlueAccent)
-                            )
-                        ),
-                      ))
+                    padding: EdgeInsets.all(8.0),
+                    child: ListTile(
+                        title: Center(
+                            child: CircularProgressIndicator(
+                                color: Colors.lightBlueAccent))),
+                  ))
                 ],
               );
             }));
@@ -65,19 +65,18 @@ Widget _buildCardContent(BuildContext context, String title, String date, double
         child: Padding(
           padding: const EdgeInsets.all(8.0),
           child: ListTile(
-            title: Text(title,
-                style: const TextStyle(fontSize: 22)),
+            title: Text(title, style: const TextStyle(fontSize: 22)),
             subtitle: Text(date),
           ),
         ),
       ),
       Center(
           child: Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: ListTile(
-                title: Text(value.toString(),
-                    style: const TextStyle(fontSize: 25))),
-          ))
+        padding: const EdgeInsets.all(8.0),
+        child: ListTile(
+            title:
+                Text(value.toString(), style: const TextStyle(fontSize: 25))),
+      ))
     ],
   );
 }

@@ -7,6 +7,7 @@ import 'package:momo_recorder_ui_app/src/views/transact.dart';
 import 'package:momo_recorder_ui_app/src/views/home.dart';
 import 'package:momo_recorder_ui_app/src/views/list.dart';
 import 'package:momo_recorder_ui_app/src/views/login.dart';
+import 'package:momo_recorder_ui_app/src/views/transaction_details.dart';
 import 'package:provider/provider.dart';
 
 Future<void> main() async {

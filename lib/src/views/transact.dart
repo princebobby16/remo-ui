@@ -1,7 +1,10 @@
+import 'dart:html';
+
 import 'package:flutter/material.dart';
 import 'package:momo_recorder_ui_app/src/components/remo_app_bar.dart';
 import 'package:momo_recorder_ui_app/src/components/bottom_navbar.dart';
 import 'package:momo_recorder_ui_app/src/models/transaction.dart';
+import 'package:momo_recorder_ui_app/src/wrappers/body_wrapper.dart';
 
 class RemoTransaction extends StatefulWidget {
   const RemoTransaction({Key? key}) : super(key: key);
@@ -169,33 +172,11 @@ class _RemoTransactionState extends State<RemoTransaction> {
         },
       )),
       extendBody: true,
-      body: Stack(children: [
-        AnimatedContainer(
-          width: double.infinity,
-          height: double.infinity,
-          decoration: const BoxDecoration(
-              gradient: LinearGradient(
-                  begin: Alignment.topCenter,
-                  end: Alignment.bottomCenter,
-                  colors: [
-                    Color(0xFF73AEF5),
-                    Color(0xFF61A4F1),
-                    Color(0xFF478DE0),
-                    Color(0xFF398AE5)
-                  ],
-                  stops: [
-                    0.1,
-                    0.4,
-                    0.7,
-                    0.9
-                  ])),
-          curve: Curves.easeInSine,
-          duration: const Duration(seconds: 1),
-        ),
-        SingleChildScrollView(
+      body: BodyWrapper(
+        bodyPart: SingleChildScrollView(
           physics: const AlwaysScrollableScrollPhysics(),
           padding:
-              const EdgeInsets.symmetric(horizontal: 40.0, vertical: 120.0),
+          const EdgeInsets.symmetric(horizontal: 40.0, vertical: 120.0),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -229,8 +210,8 @@ class _RemoTransactionState extends State<RemoTransaction> {
               )
             ],
           ),
-        )
-      ]),
+        ),
+      ),
       bottomNavigationBar: const RemoBottomNavBar(),
     );
   }
@@ -278,7 +259,7 @@ class _RemoTransactionState extends State<RemoTransaction> {
                         );
                       }
                     }
-                    return const CircularProgressIndicator();
+                    return const Center(child: CircularProgressIndicator());
                   });
             },
           );

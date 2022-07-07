@@ -1,7 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 import 'package:momo_recorder_ui_app/src/components/bottom_navbar.dart';
+import 'package:momo_recorder_ui_app/src/views/transaction_details.dart';
+import 'package:momo_recorder_ui_app/src/wrappers/body_wrapper.dart';
 import '../components/remo_app_bar.dart';
 import '../models/transaction.dart';
+import 'package:intl/intl.dart';
 
 class RemoViewTransactions extends StatefulWidget {
   const RemoViewTransactions({Key? key}) : super(key: key);
@@ -22,42 +26,23 @@ class _RemoViewTransactionsState extends State<RemoViewTransactions> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: RemoAppBar(title: 'Transactions', implyLeading: true, backButton: BackButton(
-        onPressed: () => {
-          Navigator.of(context).pushNamed('/home')
-        },
-      )),
+      appBar: RemoAppBar(
+          title: 'Transactions',
+          implyLeading: true,
+          backButton: BackButton(
+            onPressed: () => {Navigator.of(context).pushNamed('/home')},
+          )),
       extendBody: true,
-      body: Stack(
-        children: [
-          AnimatedContainer(
-            width: double.infinity,
-            height: double.infinity,
-            decoration: const BoxDecoration(
-                gradient: LinearGradient(
-                    begin: Alignment.topCenter,
-                    end: Alignment.bottomCenter,
-                    colors: [
-                      Color(0xFF73AEF5),
-                      Color(0xFF61A4F1),
-                      Color(0xFF478DE0),
-                      Color(0xFF398AE5)
-                    ],
-                    stops: [
-                      0.1,
-                      0.4,
-                      0.7,
-                      0.9
-                    ])),
-            curve: Curves.easeInSine,
-            duration: const Duration(seconds: 1),
-          ),
-          Center(
+      body: BodyWrapper(
+        bodyPart: Center(
           child: ConstrainedBox(
               constraints: const BoxConstraints(
-                  minHeight: 5.0, maxHeight: 800.0, minWidth: 100, maxWidth: 470),
+                  minHeight: 5.0,
+                  maxHeight: 800.0,
+                  minWidth: 100,
+                  maxWidth: 470),
               child: FlutterList(data: futureData)),
-        )]
+        ),
       ),
       bottomNavigationBar: const RemoBottomNavBar(),
     );
@@ -76,7 +61,10 @@ class FlutterList extends StatelessWidget {
       builder: (context, snapshot) {
         if (snapshot.connectionState == ConnectionState.done) {
           if (snapshot.hasError) {
-            return const CircularProgressIndicator();
+            return const Center(
+                child: CircularProgressIndicator(
+              color: Colors.lightBlueAccent,
+            ));
           }
 
           if (snapshot.hasData) {
@@ -84,34 +72,57 @@ class FlutterList extends StatelessWidget {
                 snapshot.data as List<TransactionsList>;
             return ListView.separated(
               itemBuilder: (context, position) {
-                return Card(
-                  // shadowColor: Colors.lightBlueAccent,
-                  elevation: 3.0,
-                  child: Center(
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                      children: [
-                        Padding(
-                          padding: const EdgeInsets.all(15.0),
-                          child: Text(
-                            data[position].transactionType,
+                return GestureDetector(
+                  onTap: () {
+                    print(position);
+                    // get the id and use it to fetch information about the transaction
+                    print(data[position].id);
+                    // Navigator.of(context).pushNamed("/transaction-details");
+                    showMaterialModalBottomSheet(
+                      backgroundColor: Colors.transparent,
+                        context: context,
+                        builder: (context) {
+                          return TransactionDetails(
+                            date: data[position].date,
+                            time: DateFormat.Hms().format(data[position].createdAt),
+                            amount: data[position].amount.toString(),
+                            commission: data[position].commission.toString(),
+                            phoneNumber: data[position].phoneNumber,
+                            transactionType: data[position].transactionType,
+                          );
+                        }
+                    );
+                  },
+                  child: Card(
+                    // shadowColor: Colors.lightBlueAccent,
+                    elevation: 3.0,
+                    child: Center(
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                        children: [
+                          Padding(
+                            padding: const EdgeInsets.all(15.0),
+                            child: Text(
+                              data[position].transactionType,
+                            ),
                           ),
-                        ),
-                        Padding(
-                          padding: const EdgeInsets.all(15.0),
-                          child: Text(
-                            data[position].date,
-                            style: const TextStyle(color: Colors.black26),
+                          Padding(
+                            padding: const EdgeInsets.all(15.0),
+                            child: Text(
+                              data[position].date,
+                              style: const TextStyle(color: Colors.black26),
+                            ),
                           ),
-                        ),
-                        Padding(
-                          padding: const EdgeInsets.all(15.0),
-                          child: Text(
-                            data[position].amount.toString(),
-                            style: const TextStyle(color: Colors.greenAccent),
+                          Padding(
+                            padding: const EdgeInsets.all(15.0),
+                            child: Text(
+                              data[position].amount.toString(),
+                              style:
+                                  const TextStyle(color: Colors.greenAccent),
+                            ),
                           ),
-                        ),
-                      ],
+                        ],
+                      ),
                     ),
                   ),
                 );
