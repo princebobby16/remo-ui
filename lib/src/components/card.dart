@@ -1,12 +1,18 @@
 import 'package:flutter/material.dart';
+import 'package:momo_recorder_ui_app/gen/assets.gen.dart';
 import 'package:momo_recorder_ui_app/src/models/transaction.dart';
 
 class RemoCard extends StatefulWidget {
-  const RemoCard({Key? key, required this.title, required this.responseData})
-      : super(key: key);
+  RemoCard({
+    Key? key,
+    required this.title,
+    required this.responseData,
+    required this.isGHS,
+  }) : super(key: key);
 
   final String title;
   final Future<TransactionsData> responseData;
+  final bool isGHS;
 
   @override
   State<RemoCard> createState() => _RemoCardState();
@@ -28,8 +34,8 @@ class _RemoCardState extends State<RemoCard> {
               if (snapshot.connectionState == ConnectionState.done) {
                 if (snapshot.hasData) {
                   TransactionsData data = snapshot.data as TransactionsData;
-                  return _buildCardContent(
-                      context, widget.title, data.date, data.value);
+                  return _buildCardContent(context, widget.title, data.date,
+                      data.value, widget.isGHS);
                 }
               }
               return Column(
@@ -58,25 +64,25 @@ class _RemoCardState extends State<RemoCard> {
   }
 }
 
-Widget _buildCardContent(BuildContext context, String title, String date, double value) {
+Widget _buildCardContent(BuildContext context, String title, String date, double value, bool isGHS) {
+
   return Column(
-    children: [
-      Center(
-        child: Padding(
-          padding: const EdgeInsets.all(8.0),
-          child: ListTile(
-            title: Text(title, style: const TextStyle(fontSize: 22)),
-            subtitle: Text(date),
+      children: [
+        Center(
+          child: Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: ListTile(
+              title: Text(title, style: const TextStyle(fontSize: 22)),
+              subtitle: Text(date),
+            ),
           ),
         ),
-      ),
-      Center(
-          child: Padding(
-        padding: const EdgeInsets.all(8.0),
-        child: ListTile(
-            title:
-                Text(value.toString(), style: const TextStyle(fontSize: 25))),
-      ))
-    ],
-  );
+        Center(
+            child: Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: ListTile(
+                  title: Text(!isGHS ? value.toString() : 'GH\u20B5 $value', style: const TextStyle(fontSize: 25))),
+            ))
+      ],
+    );
 }

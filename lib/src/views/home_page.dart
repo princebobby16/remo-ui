@@ -10,9 +10,9 @@ class RemoHomePage extends StatefulWidget {
 }
 
 class _RemoHomePageState extends State<RemoHomePage> {
-  late Future <TransactionsData> dailyCommissionData;
-  late Future <TransactionsData> monthlyCommissionData;
-  late Future <TransactionsData> transactionsCountData;
+  late Future<TransactionsData> dailyCommissionData;
+  late Future<TransactionsData> monthlyCommissionData;
+  late Future<TransactionsData> transactionsCountData;
 
   @override
   void initState() {
@@ -30,17 +30,12 @@ class _RemoHomePageState extends State<RemoHomePage> {
         children: [
           const SizedBox(height: 10),
           RemoCard(
-            title: "Total Transactions",
-              responseData: transactionsCountData
-          ),
+              title: "Total Transactions", responseData: transactionsCountData, isGHS: false,),
           RemoCard(
-              title: "Daily Commissions",
-              responseData: dailyCommissionData
-          ),
+              title: "Daily Commissions", responseData: dailyCommissionData, isGHS: true),
           RemoCard(
               title: "Monthly Commissions",
-              responseData: monthlyCommissionData
-          ),
+              responseData: monthlyCommissionData, isGHS: true),
           SizedBox(height: 0.2 * MediaQuery.of(context).size.height),
         ],
       ),

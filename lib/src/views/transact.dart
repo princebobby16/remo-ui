@@ -20,9 +20,6 @@ class _RemoTransactionState extends State<RemoTransaction> {
 
   final _formKey = GlobalKey<FormState>();
 
-  bool _disableText = false;
-  bool _enableText = true;
-
   List<DropdownMenuItem<String>> get dropdownItems {
     List<DropdownMenuItem<String>> menuItems = [
       const DropdownMenuItem(value: "DEPOSIT", child: Text("DEPOSIT")),
@@ -97,10 +94,15 @@ class _RemoTransactionState extends State<RemoTransaction> {
         onChanged: (String? newValue) {
           setState(() {
             selectedValue = newValue!;
-            _commissionsController.text = '0.0';
-            _disableText = true;
-            _enableText = false;
-            _buildCommissionInput(context);
+
+            if (newValue == 'DEPOSIT' || newValue == 'WITHDRAWAL') {
+              _commissionsController.text = '0.0';
+              _buildCommissionInput(context, false, true);
+            } else {
+              _commissionsController.text = '';
+              _buildCommissionInput(context, true, false);
+            }
+
           });
         },
         items: dropdownItems);
@@ -143,16 +145,16 @@ class _RemoTransactionState extends State<RemoTransaction> {
     );
   }
 
-  Widget _buildCommissionInput(BuildContext context) {
+  Widget _buildCommissionInput(BuildContext context, bool enabled, bool readOnly) {
     return TextFormField(
-      enabled: _enableText,
+      enabled: enabled,
       controller: _commissionsController,
       keyboardType: TextInputType.phone,
       cursorColor: Colors.black26,
       style: const TextStyle(
         color: Colors.black,
       ),
-      readOnly: _disableText,
+      readOnly: readOnly,
       decoration: const InputDecoration(
           border: InputBorder.none,
           contentPadding: EdgeInsets.only(top: 14.0),
@@ -202,7 +204,7 @@ class _RemoTransactionState extends State<RemoTransaction> {
                     const SizedBox(height: 30),
                     _buildAmountInput(context),
                     const SizedBox(height: 30),
-                    _buildCommissionInput(context),
+                    _buildCommissionInput(context, true, false),
                     const SizedBox(height: 30),
                     _buildNextButton(context),
                   ],

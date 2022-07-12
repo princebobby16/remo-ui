@@ -6,8 +6,8 @@ import 'package:json_annotation/json_annotation.dart';
 
 part 'transaction.g.dart';
 
-const serverUrl = 'https://remo-api.herokuapp.com';
-// const serverUrl = 'http://localhost:9999';
+// const serverUrl = 'https://remo-api.herokuapp.com';
+const serverUrl = 'http://localhost:9999';
 
 
 @JsonSerializable()
