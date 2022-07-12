@@ -20,6 +20,9 @@ class _RemoTransactionState extends State<RemoTransaction> {
 
   final _formKey = GlobalKey<FormState>();
 
+  bool _enabled = true;
+  bool _readOnly = false;
+
   List<DropdownMenuItem<String>> get dropdownItems {
     List<DropdownMenuItem<String>> menuItems = [
       const DropdownMenuItem(value: "DEPOSIT", child: Text("DEPOSIT")),
@@ -83,7 +86,7 @@ class _RemoTransactionState extends State<RemoTransaction> {
             borderRadius: BorderRadius.circular(20),
           ),
           border: OutlineInputBorder(
-            borderSide: const BorderSide(color: Colors.white, width: 1),
+            borderSide: const BorderSide(color: Colors.white, width: 1.0),
             borderRadius: BorderRadius.circular(20),
           ),
           filled: true,
@@ -93,19 +96,24 @@ class _RemoTransactionState extends State<RemoTransaction> {
         value: selectedValue,
         onChanged: (String? newValue) {
           setState(() {
+            print("called");
             selectedValue = newValue!;
 
-            if (newValue == 'DEPOSIT' || newValue == 'WITHDRAWAL') {
-              _commissionsController.text = '0.0';
-              _buildCommissionInput(context, false, true);
+            if (selectedValue == 'DEPOSIT' || selectedValue == 'WITHDRAWAL') {
+              print("is in disabled range");
+              _commissionsController.text = '0.00';
+              _enabled = false;
+              _readOnly = true;
             } else {
               _commissionsController.text = '';
-              _buildCommissionInput(context, true, false);
+              _enabled = true;
+              _readOnly = false;
             }
 
           });
         },
-        items: dropdownItems);
+        items: dropdownItems
+    );
   }
 
   Widget _buildNumberInput(BuildContext context) {
@@ -117,12 +125,14 @@ class _RemoTransactionState extends State<RemoTransaction> {
         style: const TextStyle(
           color: Colors.black,
         ),
-        decoration: const InputDecoration(
-            border: InputBorder.none,
-            contentPadding: EdgeInsets.only(top: 14.0),
-            prefixIcon: Icon(Icons.numbers, color: Colors.black),
+        decoration: InputDecoration(
+            border: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(30)
+            ),
+            contentPadding: const EdgeInsets.only(top: 14.0),
+            prefixIcon: const Icon(Icons.numbers, color: Colors.black),
             hintText: "Enter Phone Number",
-            hintStyle: TextStyle(color: Colors.black26)),
+            hintStyle: const TextStyle(color: Colors.black26)),
         validator: _errorPhoneNumberText);
   }
 
@@ -135,32 +145,40 @@ class _RemoTransactionState extends State<RemoTransaction> {
       style: const TextStyle(
         color: Colors.black,
       ),
-      decoration: const InputDecoration(
-          border: InputBorder.none,
-          contentPadding: EdgeInsets.only(top: 14.0),
-          prefixIcon: Icon(Icons.payment, color: Colors.black),
+      decoration: InputDecoration(
+          border: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(30)
+          ),
+          contentPadding: const EdgeInsets.only(top: 14.0),
+          prefixIcon: const Icon(Icons.payment, color: Colors.black),
           hintText: "Enter Amount",
-          hintStyle: TextStyle(color: Colors.black26)),
+          hintStyle: const TextStyle(color: Colors.black26)),
       validator: _errorAmountText,
     );
   }
 
-  Widget _buildCommissionInput(BuildContext context, bool enabled, bool readOnly) {
+  Widget _buildCommissionInput() {
     return TextFormField(
-      enabled: enabled,
+      enabled: _enabled,
       controller: _commissionsController,
       keyboardType: TextInputType.phone,
       cursorColor: Colors.black26,
       style: const TextStyle(
         color: Colors.black,
       ),
-      readOnly: readOnly,
-      decoration: const InputDecoration(
-          border: InputBorder.none,
-          contentPadding: EdgeInsets.only(top: 14.0),
-          prefixIcon: Icon(Icons.attach_money, color: Colors.black),
+      readOnly: _readOnly,
+      decoration: InputDecoration(
+          border: OutlineInputBorder(
+            borderSide: const BorderSide(
+              color: Color(0x46000FFF),
+              style: BorderStyle.none
+            ),
+            borderRadius: BorderRadius.circular(30)
+          ),
+          contentPadding: const EdgeInsets.only(top: 14.0),
+          prefixIcon: const Icon(Icons.attach_money, color: Colors.black),
           hintText: "Enter Commission",
-          hintStyle: TextStyle(color: Colors.black26)),
+          hintStyle: const TextStyle(color: Colors.black26)),
       validator: _errorCommissionText,
     );
   }
@@ -204,7 +222,7 @@ class _RemoTransactionState extends State<RemoTransaction> {
                     const SizedBox(height: 30),
                     _buildAmountInput(context),
                     const SizedBox(height: 30),
-                    _buildCommissionInput(context, true, false),
+                    _buildCommissionInput(),
                     const SizedBox(height: 30),
                     _buildNextButton(context),
                   ],

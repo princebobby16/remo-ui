@@ -3,7 +3,7 @@ import 'package:momo_recorder_ui_app/gen/assets.gen.dart';
 import 'package:momo_recorder_ui_app/src/models/transaction.dart';
 
 class RemoCard extends StatefulWidget {
-  RemoCard({
+  const RemoCard({
     Key? key,
     required this.title,
     required this.responseData,
